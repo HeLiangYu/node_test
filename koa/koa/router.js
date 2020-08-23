@@ -1,3 +1,5 @@
+const { async } = require("rsvp");
+
 class router {
   constructor() {
     this._stack = new Map();
@@ -16,11 +18,13 @@ class router {
   }
 
   routes() {
-    return (ctx, next) => {
+    return async (ctx, next) => {
       const fn = this._stack.get(ctx.method + "-" + ctx.url);
       if (fn) {
         fn(ctx, next);
+        return;
       }
+      await next();
     };
   }
 }

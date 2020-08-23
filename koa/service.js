@@ -1,22 +1,27 @@
 const koa = require("./koa/index");
 const Router = require("./koa/router");
+const static = require("./koa/static");
+const path = require("path");
 
 const app = new koa();
 const router = new Router();
-app.use(async (ctx, next) => {
-  ctx.body = "1";
+app.use(static(path.join(__dirname, "./public")));
+// app.use(static("/public"));
+// app.use(async (ctx, next) => {
+//   ctx.body = "1";
+//   await next();
+//   ctx.body += "2";
+// });
+
+router.get("/index", async (ctx, next) => {
+  ctx.body += "7";
   await next();
-  ctx.body += "2";
 });
 
-router.get("/index", (ctx, next) => {
-  ctx.body = "7";
-  next();
-});
-
-router.get("/index2", (ctx, next) => {
-  ctx.body = "3";
-  next();
+router.get("/index2", async (ctx, next) => {
+  ctx.body += "3";
+  await next();
+  ctx.body += "1";
 });
 
 app.use(router.routes());
