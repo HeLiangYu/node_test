@@ -9,6 +9,7 @@ function static(pathDir) {
         const filePath = path.join(pathDir, ctx.url.replace("/public", ""));
         try {
           const stats = fs.statSync(filePath);
+
           if (stats.isDirectory()) {
             let dirConetnt = fs
               .readdirSync(filePath)

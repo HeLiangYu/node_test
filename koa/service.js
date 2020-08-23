@@ -2,9 +2,11 @@ const koa = require("./koa/index");
 const Router = require("./koa/router");
 const static = require("./koa/static");
 const path = require("path");
+const iptable = require("./koa/iptable");
 
 const app = new koa();
 const router = new Router();
+app.use(iptable);
 app.use(static(path.join(__dirname, "./public")));
 // app.use(static("/public"));
 // app.use(async (ctx, next) => {
